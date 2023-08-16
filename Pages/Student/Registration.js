@@ -1,126 +1,246 @@
-import React from "react";
-import { TextInput, View, ScrollView, StyleSheet,Text, KeyboardAvoidingView, Platform } from "react-native";
-import { Button } from "react-native-paper";
+import React, { useState } from "react";
+import { TextInput, View, ScrollView, StyleSheet, Text, KeyboardAvoidingView, Platform } from "react-native";
+import { Button, FormControl, Select, CheckIcon, WarningOutlineIcon, NativeBaseProvider } from "native-base";
 
-const Registration = ({navigation}) => {
-
-    const handleNavigationBack=()=>{
+const Registration = ({ navigation }) => {
+    const [inputData,setInputData] = useState({
+        name:'',
+        email:'',
+        cemail:'',
+        mobilenumber:'',
+        district:'',
+        institution:''
+    })
+    const handleNavigationBack = () => {
         navigation.navigate('Home');
+    };
+  
 
+    const handleDataChange = (name, value) => {
+        setInputData(inputData => ({ ...inputData, [name]: value }));
+        console.log(inputData)
+    };
+
+    // email validate
+    const validateEmail = (email) => {
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        return emailRegex.test(email);
+    };
+
+    // validate mobile number
+    const validateMobileNumber = (number) => {
+        const numberRegex = /^[0-9]{10}$/;
+        return numberRegex.test(number);
+    };
+    const validateForm = () => {
+        const { name, email, cemail, mobilenumber, district, institution } = inputData;
+        
+        if (!name || !email || !cemail || !mobilenumber || !district || !institution) {
+            alert('All fields are required');
+            return false;
+        }
+        
+        if (!validateEmail(email)) {
+            alert('Invalid email format');
+            return false;
+        }
+        
+        if (email !== cemail) {
+            alert('Emails do not match');
+            return false;
+        }
+        
+        if (!validateMobileNumber(mobilenumber)) {
+            alert('Invalid mobile number format');
+            return false;
+        }
+        
+        return true;
+    };
+
+    // registration
+    const RegistrationOfStudent=()=>{
+       if(validateForm()){
+        alert("Registered Successfully");
+        setInputData({
+        name:'',
+        email:'',
+        cemail:'',
+        mobilenumber:'',
+        district:'',
+        institution:''
+        })
+       }
     }
     return (
-       
-      
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <ScrollView style={styles.screenView} keyboardDismissMode='interactive'>
-                <View style={styles.container}>
-                    <Text 
-                        style={styles.text}
-                    
-                    >Student Registration</Text>
+        <NativeBaseProvider>
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0} // Set this to the height of your custom header
+            >
+                <ScrollView style={styles.screenView} keyboardDismissMode='interactive'>
+                <Text style={styles.text}>Student Registration</Text>
                     <TextInput
-                        label='Name'
-                        mode='filled'
                         placeholder="Name"
                         style={styles.input}
-                        theme={{ colors: { primary: '#000000' } }}
+                        name='name'
+                        value={inputData.name}
+                        onChangeText={value => handleDataChange('name', value)}
                     />
                     <TextInput
-                        label='email'
-                        placeholder='Email'
-                        mode='filled'
+                        placeholder="Email"
                         style={styles.input}
-                        theme={{ colors: { primary: '#000000' } }}
+                        keyboardType='email-address'
+                        name='email'
+                        value={inputData.email}
+                        onChangeText={value => handleDataChange('email', value)}
                     />
                     <TextInput
-                        label='Mobile Number'
-                        placeholder='Mobile Number'
-                        mode='filled'
+                        placeholder="Confirm Email ID"
                         style={styles.input}
-                        theme={{ colors: { primary: '#000000' } }}
+                        keyboardType='email-address'
+                        name='cemail'
+                        value={inputData.cemail}
+                        onChangeText={value => handleDataChange('cemail', value)}
                     />
                     <TextInput
-                        label='district'
-                        placeholder='District'
-                        mode='filled'
+                        placeholder="Mobile Number"
                         style={styles.input}
-                        theme={{ colors: { primary: '#000000' } }}
+                        keyboardType='phone-pad'
+                        name='mobilenumber'
+                        value={inputData.mobilenumber}
+                        maxLength={10}
+                        onChangeText={value => handleDataChange('mobilenumber', value)}
                     />
-                    <View style={styles.buttonContainer}>
+                    {/* district */}
+                    <FormControl w="3/4" maxW="300" isRequired isInvalid>
+                        <FormControl.Label>Select District</FormControl.Label>
+                        <Select minWidth="200" accessibilityLabel="Select District" 
+                        placeholder="Choose Service" 
+                        name='district'
+                        value={inputData.district}
+                        onValueChange={value => handleDataChange('district', value)}
+                        _selectedItem={{
+                            bg: "teal.600",
+                            endIcon: <CheckIcon size={5} />
+                        }} mt="1"
+                        editable={false}
+                        
+                        >
+                             <Select.Item label="Select.."  />
+                            <Select.Item label="Kasaragod" value="Kasaragod" />
+                            <Select.Item label="Kannur" value="Kannur" />
+                            <Select.Item label="Kozhikode" value="Kozhikode" />
+                            <Select.Item label="Thrissur" value="Thrissur" />
+                            <Select.Item label="Kottayam" value="Kottayam" />
+                        </Select>
+                        {inputData.district === '' &&(
+                            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+                            Please make a selection!
+                        </FormControl.ErrorMessage>
+                        )}
+                        
+                    </FormControl>
+                    {/* institution */}
+                    <FormControl w="3/4" maxW="300" isRequired isInvalid >
+                        <FormControl.Label> Choose Institution From the List</FormControl.Label>
+                        <Select minWidth="200" 
+                        accessibilityLabel="Select Institution" 
+                        placeholder="Choose Institution" 
+                        name='institution'
+                        value={inputData.institution}
+                        onValueChange={value => handleDataChange('institution', value)}
+                            _selectedItem={{
+                            bg: "teal.600",
+                            endIcon: <CheckIcon size={5} />
+                        }} mt="1" editable={false}
+                            
+                        >
+                             <Select.Item label="Select.."  />
+                            <Select.Item label="St.Pius X College Rajapuaram" value="St.Pius X College Rajapuar" />
+                            <Select.Item label="CEV" value="CEV" />
+                            <Select.Item label="Don Bosco Arts and Science college" value="Don Bosco Arts and Science college" />
+                            <Select.Item label="RIT" value="RIT" />
+                            <Select.Item label="CET" value="CET" />
+                        </Select>
+                        {inputData.institution === '' && (
+                             <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+                             Please make a selection!
+                         </FormControl.ErrorMessage>
+                        )}
+                       
+                    </FormControl>
+                    
+                
+                <View style={styles.buttonContainer}>
                         <Button
                             mode="contained"
                             style={styles.regButton}
+                            onPress={RegistrationOfStudent}
                         >
                             Register
                         </Button>
                         <Button
-                        style={styles.cancelButton}
+                            style={styles.cancelButton}
                             mode="contained"
                             onPress={handleNavigationBack}
                         >
                             Cancel
                         </Button>
                     </View>
-                </View>
-            </ScrollView>
+                </ScrollView>
             </KeyboardAvoidingView>
-           
-    
+        </NativeBaseProvider>
     );
-}
-
-export default Registration;
+};
 
 const styles = StyleSheet.create({
     screenView: {
         padding: 10,
         paddingTop: 50,
+        paddingBottom:100
     },
     container: {
         justifyContent: 'center',
-        alignItems: 'center', // Center horizontally
+        alignItems: 'center',
         flex: 1,
         padding: 20,
-        marginTop: 20,
         borderRadius: 2,
         elevation: 2,
+        paddingBottom:20,
     },
     input: {
-        margin: 30,
+        marginVertical: 10,
         borderWidth: 1,
         height: 40,
         width: 250,
-        top: 30,
         borderRadius: 5,
-        borderColor: '##000000',
-        marginTop: 10,
-        paddingLeft: 10, // Make sure inputs take up full width
+        borderColor: '#000000',
+        paddingLeft: 10,
     },
-    buttonContainer:{
-        paddingTop:20,
-        flexDirection:'row',
+    buttonContainer: {
+        paddingTop: 20,
+        flexDirection: 'row',
         justifyContent: 'center',
-       
-        bottom: 0, // Align buttons at the bottom
+        bottom: 0,
         marginBottom: 20,
-        alignContent:'center', // Add some margin for spacing
-        paddingLeft:60,
+        alignContent: 'center',
+        paddingLeft: 60,
     },
-    regButton:{
-        marginHorizontal: 5
-    },
-    cancelButton:{
-        backgroundColor:'#dc143c',
+    regButton: {
         marginHorizontal: 5,
-        
     },
-    text:{
-        marginTop:10,
-        paddingVertical:10,
-        color:'#000',
-        textAlign:'center',
-        fontSize:25,
-        fontWeight:'bold',
-        
+    cancelButton: {
+        backgroundColor: '#dc143c',
+        marginHorizontal: 5,
+    },
+    text: {
+        marginTop: 10,
+        paddingVertical: 10,
+        color: '#000',
+        textAlign: 'center',
+        fontSize: 25,
+        fontWeight: 'bold',
     },
 });
+
+export default Registration;

@@ -6,8 +6,8 @@ import Home from './Pages/Home';
 import Registration from './Pages/Student/Registration';
 import Login from './Pages/Login';
 import SwitchUser from './Pages/Common/SWitchUser';
-
-
+import StudentHome from './Pages/Student/StudentHome';
+import CommonHome from './Pages/Common/CommonHome';
 const Stack = createNativeStackNavigator();
 
 
@@ -15,15 +15,16 @@ export default function App() {
   return (
     <NavigationContainer>
         <Stack.Navigator 
-          initialRouteName='SwitchUser'
+          initialRouteName='CommonHome'
           screenOptions={{headerShown:false,}}
         >
            <Stack.Screen name='Home' component={Home} options={{headerShown:false}} />
-
+          <Stack.Screen name='CommonHome' component={CommonHome}/>
 
            <Stack.Screen name='Registration' component={Registration} />
            <Stack.Screen name='Login' component={Login} />
            <Stack.Screen name='SwitchUser' component={SwitchUser} />
+          <Stack.Screen name ='StudentHome' component={StudentHome} />
         </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image,Pressable, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Button } from 'react-native-paper';
 const SwitchUser = () => {
     const navigation = useNavigation();
     const handleStudentClick=()=>{
@@ -13,7 +14,7 @@ const SwitchUser = () => {
                     <Image 
                         source={require('../../assets/yip_switch.jpg')}
                         style={Styles.img}
-                        resizeMode='cover'
+                        resizeMode='contain'
                     />
                 </View>
                 <View style={Styles.body}>
@@ -21,7 +22,7 @@ const SwitchUser = () => {
                 
                     <TouchableOpacity style={Styles.infoSelection} onPress={handleStudentClick}>
                         <View style={Styles.select}>
-                            <Text style={Styles.text}>
+                            <Text style={Styles.text1}>
                                 Student
                             </Text>
                         </View>  
@@ -29,14 +30,14 @@ const SwitchUser = () => {
                     
                     <TouchableOpacity style={Styles.infoSelection}>
                     <View style={Styles.select}>
-                            <Text style={Styles.text}>
+                            <Text style={Styles.text1}>
                                 Institution
                             </Text>
                         </View>  
                     </TouchableOpacity>
                     <TouchableOpacity style={Styles.infoSelection}>
                     <View style={Styles.select}>
-                            <Text style={Styles.text}>
+                            <Text style={Styles.text1}>
                                 Facilitator
                             </Text>
                         </View>  
@@ -72,16 +73,26 @@ const Styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         top: 10,
+        justifyContent:'center'
     },
     text: {
         fontWeight: 'bold',
         fontSize: 20,
-        fontStyle: 'normal',
+        fontStyle:'italic',
+        
+        
+    },
+    text1: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        fontStyle:'normal',
+        color:'#dc143c'
+        
         
     },
     img: {
-        height: 200,
-        width: 200,
+        height: '100%',
+        width: '80%',
     },
     imageContainer: {
         justifyContent: 'center',

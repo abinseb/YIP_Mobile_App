@@ -1,109 +1,54 @@
-import React from 'react';
-import {View,Text,StyleSheet, TextInput, Pressable, KeyboardAvoidingView, ScrollView,Image} from 'react-native';
+import * as React from "react";
+import { Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack, Center, NativeBaseProvider } from "native-base";
+import { useNavigation } from "@react-navigation/native";
+const Login = () => {
+    const navigation =useNavigation();
+    const handleSignUp=()=>{
+        navigation.navigate("Registration");
+    }
 
-const Login=()=>{
-    return(
-            <View style={styles.container}>
-                <View style={styles.imageContainer}>
-                <Image 
-                    source={require('./../assets/yip_login.png')}
-                    style={styles.img}
-                    resizeMode ='contain'
-                />
+    const handleStudentHome=()=>{
+        navigation.navigate("StudentHome");
+    }
+  return (
+    <NativeBaseProvider>
+      <Center w="100%">
+        <Box safeArea p="2" py="8" w="90%" maxW="290">
+          <Heading size="lg" fontWeight="600" color="coolGray.800" _dark={{ color: "warmGray.50" }}>
+            Welcome
+          </Heading>
+          <Heading mt="1" _dark={{ color: "warmGray.200" }} color="coolGray.600" fontWeight="medium" size="xs">
+            Sign in to continue!
+          </Heading>
 
-                </View>
-                
-            <View style={styles.loginContainer}>
-                <Text style={styles.regularText}>Email</Text>
-                <TextInput 
-                    style={styles.Input}
-                    // placeholder='UserId'
-
-                />
-
-                <Text style={styles.regularText}>Password</Text>
-                <TextInput 
-                    style={styles.Input}
-                    // placeholder='UserId'
-
-                />
-                <Text> If you don't hanve an account? Register </Text>
-
-                <Pressable style={styles.button}>
-                    <Text style={styles.loginText}>Login</Text>
-                </Pressable>
-
-            </View>
-
-        </View>
-       
-    )
+          <VStack space={3} mt="5">
+            <FormControl>
+              <FormControl.Label>Email ID</FormControl.Label>
+              <Input />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label>Password</FormControl.Label>
+              <Input type="password" />
+              <Link _text={{ fontSize: "xs", fontWeight: "500", color: "indigo.500" }} alignSelf="flex-end" mt="1">
+                Forget Password?
+              </Link>
+            </FormControl>
+            <Button mt="2" colorScheme="indigo" onPress={handleStudentHome}>
+              Sign in
+            </Button>
+            <HStack mt="6" justifyContent="center">
+              <Text fontSize="sm" color="coolGray.600" _dark={{ color: "warmGray.200" }}>
+                I'm a new user.{" "}
+              </Text>
+              <Link _text={{ color: "indigo.500", fontWeight: "medium", fontSize: "sm" }} onPress={handleSignUp}>
+                Sign Up
+              </Link>
+            </HStack>
+          </VStack>
+        </Box>
+      </Center>
+    </NativeBaseProvider>
+  );
 }
 
 export default Login;
-
-const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:`#ffffe0`
-    },
-    loginContainer:{
-        backgroundColor:`#fafad2`,
-        bottom:0,
-        height:'50%',
-        left:0,
-        right:0,
-        position:'absolute',
-        justifyContent:'flex-start'
-
-
-    },
-    regularText:{
-        fontSize:20,
-        margin:5,
-        left:20
-
-    },
-    Input:{
-        color:'black',
-        paddingVertical:10,
-        paddingHorizontal:10,
-        width:'80%',
-        height:40,
-        borderRadius:20,
-        backgroundColor:'white',
-        marginRight:10,
-        borderWidth:1,
-        borderColor:'black',
-        left:20
-    },
-
-    button:{
-        height:50,
-        width:'50%',
-        backgroundColor:`#ff0000`,
-        borderRadius:20,
-        borderWidth:2,
-        borderColor:'white',
-        alignSelf:'center',
-        },
-
-    loginText:{
-        fontWeight:'bold',
-        color:'white',
-        fontSize:20,
-        alignSelf:'center'
-        
-    },
-    img:{
-        height:500,
-        width:300
-    },
-    imageContainer:{
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '50%',
-    }
-
-})
-

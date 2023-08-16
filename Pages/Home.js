@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button } from "react-native-paper";
+import { Button, NativeBaseProvider } from 'native-base';
 import { ImageBackground, View, StyleSheet } from 'react-native';
 
 const Home = ({navigation}) => {
     return (
-        
+        <NativeBaseProvider>
             <View style={styles.container}>
                 <ImageBackground
                     style={styles.imageDesign}
@@ -28,6 +28,10 @@ const Home = ({navigation}) => {
                 </ImageBackground>
             </View>
        
+
+        </NativeBaseProvider>
+        
+            
     )
 }
 
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
         bottom: 0, // Align buttons at the bottom
         marginBottom: 20,
         alignContent:'center', // Add some margin for spacing
-        paddingLeft:60,
+        paddingLeft:80,
     },
     Button:{
         paddingVertical: 5, // Vertical padding for the buttons
